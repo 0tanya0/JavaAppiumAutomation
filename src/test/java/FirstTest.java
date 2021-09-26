@@ -32,7 +32,7 @@ public class FirstTest {
         //Skip Welcome page
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Element Not found",
+                "Element 'Skip button' Not found",
                 5);
     }
 
@@ -44,81 +44,13 @@ public class FirstTest {
     @Test
     public void testTextVerification(){
 
+        String expectedText = "Search Wikipedia";
+
         assertElementHasText(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Search Wikipedia",
-                "Element with Expected text NOT found"
+                expectedText,
+                "Element with '" + expectedText + "' text NOT found"
         );
-
-//        waitForElementAndClick(
-//                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-//                "Element NOT found",
-//                5
-//        );
-//        waitForElementAndSendKeys(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                "Java",
-//                "Element NOT found",
-//                5
-//        );
-//        waitForElementPresent(
-//                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']//*[contains(@text,'Object-oriented programming language')]"),
-//                "Cannot find 'Object-oriented programming language' topic searching be 'Java'",
-//                15
-//        );
-    }
-
-    @Test
-    public void testCancelSearch(){
-        waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Element NOT found",
-                5
-        );
-        waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/search_toolbar']/*[1]"),
-                "Element NOT found",
-                5
-        );
-        waitForElementNotPresent(
-                By.xpath("//*[@resource-id='org.wikipedia:id/search_toolbar']/*[1]"),
-                "Element NOT found",
-                5
-        );
-    }
-    @Test
-    public void firstTest(){
-
-        waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Element NOT found",
-                5
-        );
-
-        waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Java",
-                "Element NOT found",
-                5
-        );
-        waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_list']//*[contains(@text,'Object-oriented programming language')]"),
-                "Cannot find 'Object-oriented programming language' topic searching be 'Java'",
-                15
-        );
-        WebElement title_element = waitForElementPresent(
-                By.xpath("//*[@content-desc='Java (programming language)'][@class='android.view.View']"),
-                "error",
-                5
-        );
-//        String article_class = title_element.getAttribute("class");
-//        String article_title = title_element.getAttribute("content-desc");
-//        Assert.assertEquals(
-//                "blabla",
-//                "Java (programming language)",
-//                article_title
-//        );
-
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSecond){
@@ -141,26 +73,23 @@ public class FirstTest {
         );
     }
 
-    private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSecond){
+    private void waitForElementAndClick(By by, String error_message, long timeoutInSecond){
         WebElement element = waitForElementPresent(by,error_message,5);
         element.click();
-        return element;
     }
 
-    private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSecond){
+    private void waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSecond){
         WebElement element = waitForElementPresent(by,error_message,5);
         element.sendKeys(value);
-        return element;
     }
-    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSecond){
+    private void waitForElementAndClear(By by, String error_message, long timeoutInSecond){
         WebElement element = waitForElementPresent(by,error_message,5);
         element.clear();
-        return element;
     }
 
-    private void assertElementHasText(By by, String textExpected, String error_message){
+    private void assertElementHasText(By by, String expectedText, String error_message){
         WebElement element = waitForElementPresent(by,error_message,5);
-        String textActual = element.getText();
-        Assert.assertEquals(error_message, textExpected, textActual);
+        String actualText = element.getText();
+        Assert.assertEquals(error_message, expectedText, actualText);
     }
 }
