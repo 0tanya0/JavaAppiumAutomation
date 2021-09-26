@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,6 +15,15 @@ import java.net.URL;
 
 public class FirstTest {
     private AppiumDriver driver;
+
+    //*********Locators*********
+    private static final String SEARCH_FIELD_WIKIPEDIA_BY_XPATH = "//*[contains(@text,'Search Wikipedia')]";
+    private static final String SKIP_BTN_BY_ID = "org.wikipedia:id/fragment_onboarding_skip_button";
+    private static final String SEARCH_SRC_TEXT_BY_XPATH = "org.wikipedia:id/search_src_text";
+    private static final String SEARCH_RES_LIST_BY_XPATH = "//*[@resource-id='org.wikipedia:id/search_results_list']";
+    private static final String SEARCH_CLOSE_BTN_BY_ID = "org.wikipedia:id/search_close_btn";
+    private static final String SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container";
+
 
     @Before
     public void setUp() throws Exception{
@@ -31,9 +41,9 @@ public class FirstTest {
 
         //Skip Welcome page
         waitForElementAndClick(
-                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
-                "Element 'Skip button' Not found",
-                5);
+                By.id(SKIP_BTN_BY_ID),
+                "Element 'Skip button' Not found"
+        );
     }
 
     @After
@@ -41,15 +51,45 @@ public class FirstTest {
         driver.quit();
     }
 
+
     @Test
     public void testTextVerification(){
 
         String expectedText = "Search Wikipedia";
 
         assertElementHasText(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                By.xpath(SEARCH_FIELD_WIKIPEDIA_BY_XPATH),
                 expectedText,
                 "Element with '" + expectedText + "' text NOT found"
+        );
+    }
+
+    @Test
+    public void testCancelSearch(){
+        waitForElementAndClick(
+                By.xpath(SEARCH_FIELD_WIKIPEDIA_BY_XPATH),
+                "Element SEARCH_FIELD_WIKIPEDIA not found"
+        );
+        waitForElementAndSendKeys(
+                By.id(SEARCH_SRC_TEXT_BY_XPATH),
+                "Java",
+                "Element SEARCH_SRC_TEXT not found",
+                5
+        );
+        waitForElementPresent(
+                //search for child with index 3
+                By.xpath(SEARCH_RES_LIST_BY_XPATH+"//..[@index='3']"),
+                "Elements with searching text not found",
+                15
+        );
+        waitForElementAndClick(
+                By.id(SEARCH_CLOSE_BTN_BY_ID),
+                "Element SEARCH_CLOSE_BTN not found"
+        );
+        waitForElementPresent(
+                By.id(SEARCH_EMPTY_CONTAINER_BY_ID),
+                "Searching elements are NOT disappeared",
+                15
         );
     }
 
@@ -73,7 +113,7 @@ public class FirstTest {
         );
     }
 
-    private void waitForElementAndClick(By by, String error_message, long timeoutInSecond){
+    private void waitForElementAndClick(By by, String error_message){
         WebElement element = waitForElementPresent(by,error_message,5);
         element.click();
     }
