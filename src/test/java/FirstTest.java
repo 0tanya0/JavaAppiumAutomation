@@ -7,11 +7,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
     private AppiumDriver driver;
@@ -19,11 +19,10 @@ public class FirstTest {
     //*********Locators*********
     private static final String SEARCH_FIELD_WIKIPEDIA_BY_XPATH = "//*[contains(@text,'Search Wikipedia')]";
     private static final String SKIP_BTN_BY_ID = "org.wikipedia:id/fragment_onboarding_skip_button";
-    private static final String SEARCH_SRC_TEXT_BY_XPATH = "org.wikipedia:id/search_src_text";
+    private static final String SEARCH_SRC_TEXT_BY_ID = "org.wikipedia:id/search_src_text";
     private static final String SEARCH_RES_LIST_BY_XPATH = "//*[@resource-id='org.wikipedia:id/search_results_list']";
     private static final String SEARCH_CLOSE_BTN_BY_ID = "org.wikipedia:id/search_close_btn";
     private static final String SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container";
-
 
     @Before
     public void setUp() throws Exception{
@@ -71,7 +70,7 @@ public class FirstTest {
                 "Element SEARCH_FIELD_WIKIPEDIA not found"
         );
         waitForElementAndSendKeys(
-                By.id(SEARCH_SRC_TEXT_BY_XPATH),
+                By.id(SEARCH_SRC_TEXT_BY_ID),
                 "Java",
                 "Element SEARCH_SRC_TEXT not found",
                 5
@@ -93,43 +92,74 @@ public class FirstTest {
         );
     }
 
-    private WebElement waitForElementPresent(By by, String error_message, long timeoutInSecond){
+    @Test
+    public void testSearchListTextVerification(){
+        String searchText = "JAVA";
+        waitForElementAndClick(
+                By.xpath(SEARCH_FIELD_WIKIPEDIA_BY_XPATH),
+                "Element SEARCH_FIELD_WIKIPEDIA not found"
+        );
+        waitForElementAndSendKeys(
+                By.id(SEARCH_SRC_TEXT_BY_ID),
+                searchText,
+                "Element SEARCH_SRC_TEXT not found",
+                5
+        );
+
+        assertListHasTextByXpath(
+                SEARCH_RES_LIST_BY_XPATH,
+                searchText,
+                "Elements with " +searchText+" not found"
+        );
+    }
+
+    private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSecond){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSecond);
-        wait.withMessage(error_message + "\n");
+        wait.withMessage(errorMessage + "\n");
         return wait.until(
                 ExpectedConditions.presenceOfElementLocated(by)
         );
     }
 
-    private WebElement waitForElementPresent(By by, String error_message){
-        return waitForElementPresent(by,error_message,5);
+    private WebElement waitForElementPresent(By by, String errorMessage){
+        return waitForElementPresent(by,errorMessage,5);
     }
 
-    private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSecond){
+    private boolean waitForElementNotPresent(By by, String errorMessage, long timeoutInSecond){
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSecond);
-        wait.withMessage(error_message + "\n");
+        wait.withMessage(errorMessage + "\n");
         return wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(by)
         );
     }
 
-    private void waitForElementAndClick(By by, String error_message){
-        WebElement element = waitForElementPresent(by,error_message,5);
+    private void waitForElementAndClick(By by, String errorMessage){
+        WebElement element = waitForElementPresent(by,errorMessage,5);
         element.click();
     }
 
-    private void waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSecond){
-        WebElement element = waitForElementPresent(by,error_message,5);
+    private void waitForElementAndSendKeys(By by, String value, String errorMessage, long timeoutInSecond){
+        WebElement element = waitForElementPresent(by,errorMessage,5);
         element.sendKeys(value);
     }
-    private void waitForElementAndClear(By by, String error_message, long timeoutInSecond){
-        WebElement element = waitForElementPresent(by,error_message,5);
+    private void waitForElementAndClear(By by, String errorMessage, long timeoutInSecond){
+        WebElement element = waitForElementPresent(by,errorMessage,5);
         element.clear();
     }
 
-    private void assertElementHasText(By by, String expectedText, String error_message){
-        WebElement element = waitForElementPresent(by,error_message,5);
+    private void assertElementHasText(By by, String expectedText, String errorMessage){
+        WebElement element = waitForElementPresent(by,errorMessage,5);
         String actualText = element.getText();
-        Assert.assertEquals(error_message, expectedText, actualText);
+        Assert.assertEquals(errorMessage, expectedText, actualText);
+    }
+
+    private void assertListHasTextByXpath(String xpath, String searchText, String errorMessage){
+        String toLowerCaseValue = searchText.toLowerCase();
+        String searchTextInXpath = xpath+"//*[contains(lower-case(@text),'"+toLowerCaseValue+"')]";
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.withMessage(errorMessage + "\n");
+        List <WebElement> searchResultList = wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(searchTextInXpath)));
+        Assert.assertTrue("Text"+searchText+" not found in the list",searchResultList.size()>3);
     }
 }
