@@ -10,10 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.appium:java-client:4.1.2'
-    implementation 'org.seleniumhq.selenium:selenium-server:3.4.0'
+    implementation 'io.appium:java-client:7.1.0'
+    implementation 'org.seleniumhq.selenium:selenium-server:3.14.0'
     testImplementation 'junit:junit:4.12'
     testRuntimeOnly'junit:junit:4.12'
+    compileOnly 'javax.websocket:javax.websocket-api:1.1'
+
 }
 
 test {
