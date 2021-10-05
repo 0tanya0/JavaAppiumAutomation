@@ -17,6 +17,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class FirstTest {
     private AppiumDriver driver;
@@ -69,26 +71,25 @@ public class FirstTest {
     }
 
     @Test
-    public void testSavedArticles(){
+    public void testAssertTitle(){
         String text = "Java";
-        String nameList = "Test";
-        //Step 1
-        clickAndSearchArticleByText(text);
-        createNewList(nameList);
-        clickBackBtn();
-        clickArticleByText(text, 1);
-        addArticleToSavedList(nameList);
-        //step 2
-        goToHomeScreen();
-        selectArticleFromSavedList(nameList, text);
-        removeArticleFromList(nameList);
-        //step 3
-        goToHomeScreen();
-        clickSavedNavigationBar();
-        selectArticleFromSavedList(nameList, text);
-        //step 4
-        assertTitleOfArticle(text);
+
+        searchArticleByText(text);
+        clickElementFromListByIndex(
+                By.xpath(SEARCH_RES_LIST_BY_XPATH),
+                0,
+                "Element SEARCH_RES_LIST with"+text+" not found"
+        );
+        assertElementPresent(
+                By.xpath(TITLE_OF_ARTICLE_BY_XPATH+"//*[contains(@text,'"+ text +"')]")
+        );
     }
+
+        private void assertElementPresent(By by) {
+//            driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+            Boolean isPresent = driver.findElements(by).size() > 0;
+            Assert.assertTrue("Element not present", isPresent);
+        }
 
     private void assertTitleOfArticle(String text) {
         assertElementHasText(
