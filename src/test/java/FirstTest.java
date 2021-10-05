@@ -9,16 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
+
 
 public class FirstTest {
     private AppiumDriver driver;
@@ -42,6 +41,7 @@ public class FirstTest {
     private static final String RECYCLER_VIEW_BY_XPATH = "//*[@resource-id='org.wikipedia:id/recycler_view']";
     private static final String LIST_SAVED_ARTICLES_BY_XPATH = "//*[@resource-id='org.wikipedia:id/page_list_item_title']";
     private static final String TITLE_OF_ARTICLE_BY_XPATH = "//*[@resource-id='pcs']";
+    String text = "Java";
 
     @Before
     public void setUp() throws Exception{
@@ -63,6 +63,7 @@ public class FirstTest {
                 "Element 'Skip button' Not found",
                 5
         );
+        setScreenOrientationToDefault();
     }
 
     @After
@@ -71,18 +72,22 @@ public class FirstTest {
     }
 
     @Test
-    public void testAssertTitle(){
-        String text = "Java";
-
+    public void testRotate(){
         searchArticleByText(text);
-        clickElementFromListByIndex(
-                By.xpath(SEARCH_RES_LIST_BY_XPATH),
-                0,
-                "Element SEARCH_RES_LIST with"+text+" not found"
-        );
-        assertElementPresent(
-                By.xpath(TITLE_OF_ARTICLE_BY_XPATH+"//*[contains(@text,'"+ text +"')]")
-        );
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+    }
+
+    @Test
+    public void testAssertRotate(){
+        searchArticleByText(text);
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+
+    private void setScreenOrientationToDefault(){
+        ScreenOrientation ori = driver.getOrientation();
+        if (ori == ScreenOrientation.LANDSCAPE)
+            driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
         private void assertElementPresent(By by) {
