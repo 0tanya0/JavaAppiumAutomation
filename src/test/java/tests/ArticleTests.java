@@ -23,6 +23,7 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchText(searchText);
+        searchPageObject.clickElementByTitle(searchText);
 
         ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         articlePageObject.assertTitleOfArticle(searchText);

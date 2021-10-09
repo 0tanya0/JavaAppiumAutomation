@@ -22,7 +22,6 @@ public class ArticlePageObject extends MainPageObject {
         Assert.assertTrue("Title of article doesn't contain text",
                 getArticleTitle().contains(expectedText));
     }
-
     public WebElement waitForTitleElement(){
         return waitForElementPresent(
                 By.xpath(TITLE_OF_ARTICLE),
@@ -31,9 +30,9 @@ public class ArticlePageObject extends MainPageObject {
     }
     public void swipeToFooter(){
         swipeUpToFindElement(
-                By.id(FOOTER_TEXT_BY_XPATH),
+                By.xpath(FOOTER_TEXT_BY_XPATH),
                 "Cannot find the end of article",
-                20
+                10
         );
     }
     public void addArticleToNewList(String nameList){

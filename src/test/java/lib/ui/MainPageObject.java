@@ -100,6 +100,7 @@ public class MainPageObject {
     public void swipeUpQuick(){
         swipeUp(200);
     }
+
     public void swipeUpToFindElement(By by, String errorMessage, int maxSwipes){
         int alreadySwiped = 0;
         while (driver.findElements(by).size() == 0){
@@ -112,11 +113,11 @@ public class MainPageObject {
         }
     }
 
-    public void swipeElementToLeft(By by, String errorMessage, int timeOfSwipe){
+    public void swipeElementToLeft(By by, String errorMessage){
         WebElement element = waitForElementPresent(
                 by,
                 "Element is NOT present",
-                5
+                10
         );
         int leftX = element.getLocation().getX();
         int rightX = leftX + element.getSize().getWidth();
@@ -126,7 +127,7 @@ public class MainPageObject {
         TouchAction action = new TouchAction(driver);
         action
                 .press(PointOption.point(rightX,middleY))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeOfSwipe)))
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(150)))
                 .moveTo(PointOption.point(leftX,middleY))
                 .release()
                 .perform();
@@ -135,7 +136,7 @@ public class MainPageObject {
     public void assertElementNotPresent(By by, String errorMessage){
         int amountsOfElements = getAmountsOfElements(by);
         if (amountsOfElements>0){
-            String defaultMessage = "An element '"+by.toString()+"'not present";
+            String defaultMessage = "An element '"+by.toString()+"'is present";
             throw new AssertionError(defaultMessage+errorMessage);
         }
     }

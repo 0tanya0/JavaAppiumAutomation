@@ -45,8 +45,7 @@ public class MyListPageObject extends MainPageObject{
         String searchArticleXPath = getTitleArticleFromSavedList(titleOfArticle);
         swipeElementToLeft(
                 By.xpath(searchArticleXPath),
-                "Element SAVED_LIST_ARTICLES_BY_XPATH_TPL not found",
-                5
+                "Element SAVED_LIST_ARTICLES_BY_XPATH_TPL not found"
         );
         waitForElementNotPresent(
                 By.xpath(searchArticleXPath),

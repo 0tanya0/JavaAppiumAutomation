@@ -8,10 +8,11 @@ public class SearchPageObject extends MainPageObject{
     private static final String
             SEARCH_FIELD_WIKIPEDIA_BY_XPATH = "//*[contains(@text,'Search Wikipedia')]",
             SEARCH_INPUT_BY_ID = "org.wikipedia:id/search_src_text",
-            SEARCH_TITLE_BY_ID_TPL = "org.wikipedia:id/page_list_item_title//*[contains(@text,'{SUBSTRING}')]",
+            SEARCH_TITLE_BY_ID_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{SUBSTRING}')]",
             SEARCH_CANCEL_BTN_BY_ID = "org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_BY_XPATH_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DesOfArticle}')]",
+            SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_BY_XPATH_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DesOfArticle}']",
             SEARCH_RESULT = "//*[@resource-id='org.wikipedia:id/search_results_list']",
+            SEARCH_RESULT_EMPTY = "//*[@resource-id='org.wikipedia:id/results_text'][@text='No results']",
             SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container";
 
 
@@ -55,6 +56,14 @@ public class SearchPageObject extends MainPageObject{
                 5
         );
     }
+    public void clickElementByTitle(String titleOfArticle){
+        String searchTitleXPath = getTitleSearchElement(titleOfArticle);
+        waitForElementAndClick(
+                By.xpath(searchTitleXPath),
+                "Element with "+titleOfArticle+"not present",
+                5
+        );
+    }
     public void assertTitleOfArticle(String subString) {
         String searchTitleXPath = getTitleSearchElement(subString);
         assertElementHasText(
@@ -75,7 +84,7 @@ public class SearchPageObject extends MainPageObject{
         String searchResultXPath = getSearchResultDescriptionOfArticle(descriptionOfArticle);
         waitForElementAndClick(
                 By.xpath(searchResultXPath),
-                "Element TITLE_OF_ARTICLE_BY_XPATH with"+ descriptionOfArticle +" not found",
+                "Element TITLE_OF_ARTICLE_BY_XPATH with "+ descriptionOfArticle +" not found",
                 15
         );
     }
@@ -104,7 +113,7 @@ public class SearchPageObject extends MainPageObject{
         );
     }
     public void assertThereIsNoResultOfSearch(){
-        assertElementNotPresent(By.xpath(SEARCH_RESULT),"Search result list is NOT empty");
+        waitForElementPresent(By.xpath(SEARCH_RESULT_EMPTY),"Search result list is NOT empty");
     }
 
 //    public void assertListHasTextByXpath(String xpath, String searchText, String errorMessage){

@@ -8,7 +8,8 @@ public class NavigationUI extends MainPageObject{
             BOOKMARK_BTN_BY_ID = "org.wikipedia:id/article_menu_bookmark",
             BACK_BTN_BY_XPATH = "//*[@resource-id='org.wikipedia:id/page_toolbar']/*[1]",
             KEBAB_MENU_BY_ID = "org.wikipedia:id/page_toolbar_button_show_overflow_menu",
-            EXPLORE_MENU_BY_ID = "org.wikipedia:id/overflow_feed";
+            EXPLORE_MENU_BY_ID = "org.wikipedia:id/overflow_feed",
+            SKIP_BTN_BY_ID = "org.wikipedia:id/fragment_onboarding_skip_button";
 
     public NavigationUI(AppiumDriver driver){
         super(driver);
@@ -45,5 +46,12 @@ public class NavigationUI extends MainPageObject{
     public void goToHomeScreen() {
         clickKebabBtn();
         clickExploreMenu();
+    }
+    public void clickSkipButton(){
+        waitForElementAndClick(
+                By.id(SKIP_BTN_BY_ID),
+                "Skip btn is not present",
+                5
+        );
     }
 }

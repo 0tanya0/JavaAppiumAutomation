@@ -6,10 +6,6 @@ import org.junit.Test;
 
 public class FirstTest extends CoreTestCase {
 
-    //*********Locators*********
-    private static final String SKIP_BTN_BY_ID = "org.wikipedia:id/fragment_onboarding_skip_button";
-
-
     @Test
     public void testSavedArticles(){
 //        public void testAssertTitle(){
