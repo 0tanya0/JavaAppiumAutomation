@@ -8,7 +8,9 @@ public class MyListPageObject extends MainPageObject{
             SAVED_NAVIGATION_BAR_BY_XPATH = "//*[@content-desc='Saved']",
             RECYCLER_VIEW_BY_XPATH = "//*[@resource-id='org.wikipedia:id/recycler_view']",
             SAVED_LIST_ARTICLES_BY_XPATH_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{TITLE}')]",
+            SAVED_LIST_DESCRIPTION_BY_XPATH_TPL = "//*[@resource-id = 'org.wikipedia:id/page_list_item_description'][contains(@text,'{DESCRIPTION}')]",
             DELETE_MY_LIST_OK_BTN = "//*[@text='OK']",
+            ADD_TO_LIST_ACTION_BY_XPATH = "//*[@text='ADD TO LIST']",
             REMOVE_FROM_READING_LISTS_MENU = "//*[@text='Remove from reading lists']",
             NAME_OF_FOLDER_CHECKLIST_TPL = "//*[@text='{NAMELIST}']";
 
@@ -18,6 +20,9 @@ public class MyListPageObject extends MainPageObject{
     //Templates methods
     private static String getTitleArticleFromSavedList(String titleOfArticle){
         return SAVED_LIST_ARTICLES_BY_XPATH_TPL.replace("{TITLE}",titleOfArticle);
+    }
+    private static String getDescriptionOfArticleFromSavedList(String descriptionOfArticle){
+        return SAVED_LIST_DESCRIPTION_BY_XPATH_TPL.replace("{DESCRIPTION}",descriptionOfArticle);
     }
     private static String getNameFolder(String nameOfList){
         return NAME_OF_FOLDER_CHECKLIST_TPL.replace("{NAMELIST}",nameOfList);
@@ -47,10 +52,17 @@ public class MyListPageObject extends MainPageObject{
                 By.xpath(searchArticleXPath),
                 "Element SAVED_LIST_ARTICLES_BY_XPATH_TPL not found"
         );
+    }
+    public void removeArticleByDescriptionFromSavedList(String descriptionOfArticle){
+        String searchDescriptionOfArticleXPath = getDescriptionOfArticleFromSavedList(descriptionOfArticle);
+        swipeElementToLeft(
+                By.xpath(searchDescriptionOfArticleXPath),
+                "Element SAVED_LIST_DESCRIPTION_BY_XPATH_TPL not found"
+        );
         waitForElementNotPresent(
-                By.xpath(searchArticleXPath),
-                "Element SAVED_LIST_ARTICLES_BY_XPATH_TPL is still present",
-                5
+                By.xpath(searchDescriptionOfArticleXPath),
+                "Element SAVED_LIST_DESCRIPTION_BY_XPATH_TPL still present",
+                10
         );
     }
     public void openSavedListByName(String nameList){
@@ -82,13 +94,14 @@ public class MyListPageObject extends MainPageObject{
     public void addArticleToSavedList(String nameList){
         NavigationUI navigationUI = new NavigationUI(driver);
         navigationUI.clickBookmarkBtn();
-//        waitForElementAndClick(
-//                By.xpath(ADD_TO_LIST_ACTION_BY_XPATH),
-//                "Element ADD_TO_LIST_ACTION_BY_XPATH not found",
-//                5
-//        );
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='"+nameList+"']"),
+                By.xpath(ADD_TO_LIST_ACTION_BY_XPATH),
+                "Element ADD_TO_LIST_ACTION_BY_XPATH not found",
+                5
+        );
+        String searchArticleXPath = getNameFolder(nameList);
+        waitForElementAndClick(
+                By.xpath(searchArticleXPath),
                 "Element ADD_TO_LIST_ACTION_BY_XPATH not found",
                 5
         );

@@ -29,4 +29,15 @@ public class ArticleTests extends CoreTestCase {
         articlePageObject.assertTitleOfArticle(searchText);
         articlePageObject.swipeToFooter();
     }
+
+    public void testAssertTitle(){
+        String searchText = "Java";
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchText(searchText);
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        searchPageObject.clickElementByTitle(searchText);
+        articlePageObject.assertElementPresentWithoutWait(searchText);
+    }
+
 }

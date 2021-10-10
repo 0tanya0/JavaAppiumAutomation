@@ -11,7 +11,7 @@ public class SearchPageObject extends MainPageObject{
             SEARCH_TITLE_BY_ID_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{SUBSTRING}')]",
             SEARCH_CANCEL_BTN_BY_ID = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_BY_XPATH_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DesOfArticle}']",
-            SEARCH_RESULT = "//*[@resource-id='org.wikipedia:id/search_results_list']",
+            SEARCH_RESULT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*",
             SEARCH_RESULT_EMPTY = "//*[@resource-id='org.wikipedia:id/results_text'][@text='No results']",
             SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container";
 
@@ -103,7 +103,7 @@ public class SearchPageObject extends MainPageObject{
     }
     public void assertAmountOfFoundArticle(){
         int amountOfArticle = getAmountOfFoundArticle();
-        Assert.assertTrue("Search result list is empty",amountOfArticle>0);
+        Assert.assertTrue("Search result list is empty",amountOfArticle>1);
     }
     public void waitForEmptyResultsLabel(){
         waitForElementPresent(

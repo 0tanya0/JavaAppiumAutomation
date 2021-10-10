@@ -19,6 +19,7 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject searchPageObject = new SearchPageObject(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchText(searchText);
+        searchPageObject.assertAmountOfFoundArticle();
         searchPageObject.clickCancelSearchBtn();
         searchPageObject.waitForCancelBtnToDisappear();
     }

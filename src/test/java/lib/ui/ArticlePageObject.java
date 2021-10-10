@@ -61,4 +61,10 @@ public class ArticlePageObject extends MainPageObject {
         WebElement element = waitForTitleElement();
         return element.getAttribute("text");
     }
+    public void assertElementPresentWithoutWait(String searchText){
+        assertElementPresent(
+                By.xpath(TITLE_OF_ARTICLE+"[contains(@text,'"+ searchText +"')]")
+        );
+    }
+
 }

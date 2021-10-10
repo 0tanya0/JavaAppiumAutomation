@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainPageObject {
     protected AppiumDriver driver;
@@ -21,7 +22,7 @@ public class MainPageObject {
     }
 
     public void assertElementPresent(By by) {
-//            driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
         Boolean isPresent = driver.findElements(by).size() > 0;
         Assert.assertTrue("Element not present", isPresent);
     }
