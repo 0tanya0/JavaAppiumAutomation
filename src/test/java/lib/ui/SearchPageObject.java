@@ -13,7 +13,8 @@ public class SearchPageObject extends MainPageObject{
             SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_BY_XPATH_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DesOfArticle}']",
             SEARCH_RESULT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*",
             SEARCH_RESULT_EMPTY = "//*[@resource-id='org.wikipedia:id/results_text'][@text='No results']",
-            SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container";
+            SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container",
+            SEARCH_RESULT_DESCRIPTION_AND_TITLE_BY_XPATH = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{TITLE}')]/following-sibling::*[@resource-id='org.wikipedia:id/page_list_item_description'][contains(@text,'{DESCRIPTION}')]/..";
 
 
     public SearchPageObject(AppiumDriver driver){
@@ -27,7 +28,11 @@ public class SearchPageObject extends MainPageObject{
     private static String getTitleSearchElement(String subString){
         return SEARCH_TITLE_BY_ID_TPL.replace("{SUBSTRING}",subString);
     }
-
+    public static String getSearchResultDescriptionAndTitle(String descOfArticle, String titleOfArticle){
+        return SEARCH_RESULT_DESCRIPTION_AND_TITLE_BY_XPATH
+                .replace("{TITLE}",titleOfArticle)
+                .replace("{DESCRIPTION}",descOfArticle);
+    }
     public void clickCancelSearchBtn(){
         waitForElementAndClick(
                 By.id(SEARCH_CANCEL_BTN_BY_ID),
@@ -116,6 +121,19 @@ public class SearchPageObject extends MainPageObject{
         waitForElementPresent(By.xpath(SEARCH_RESULT_EMPTY),"Search result list is NOT empty");
     }
 
+    public void waitForElementByTitleAndDescription(String titleOfArticle, String descriptionOfArticle) {
+        String searchResultXPath = getSearchResultDescriptionAndTitle(descriptionOfArticle,titleOfArticle);
+        waitForElementPresent(
+                By.xpath(searchResultXPath),
+                "Element with "+ descriptionOfArticle +" not found"
+        );
+    }
+
+    public void assertAmountOfResultsByDescAndArticle(String searchText, String descriptionOfArticle) {
+        String searchResultXPath = getSearchResultDescriptionAndTitle(descriptionOfArticle,searchText);
+        int amountsOfResults = getAmountsOfElements(By.xpath(searchResultXPath));
+        Assert.assertTrue("Search result list is empty",amountsOfResults>2);
+    }
 //    public void assertListHasTextByXpath(String xpath, String searchText, String errorMessage){
 //        String toLowerCaseValue = searchText.toLowerCase();
 //        String searchTextInXpath = xpath+"//*[contains(lower-case(@text),'"+toLowerCaseValue+"')]";

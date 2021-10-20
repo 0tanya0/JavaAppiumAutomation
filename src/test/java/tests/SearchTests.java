@@ -39,4 +39,14 @@ public class SearchTests extends CoreTestCase {
         searchPageObject.typeSearchText(searchText);
         searchPageObject.assertThereIsNoResultOfSearch();
     }
+    @Test
+    public void testSearchByArticleAndDescription(){
+        String searchText = "University of";
+        String descriptionOfArticle = "university";
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        searchPageObject.initSearchInput();
+        searchPageObject.typeSearchText(searchText);
+        searchPageObject.waitForElementByTitleAndDescription(searchText,descriptionOfArticle);
+        searchPageObject.assertAmountOfResultsByDescAndArticle(searchText,descriptionOfArticle);
+    }
 }
