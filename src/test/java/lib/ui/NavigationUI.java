@@ -5,11 +5,11 @@ import org.openqa.selenium.By;
 
 public class NavigationUI extends MainPageObject{
     public static final String
-            BOOKMARK_BTN_BY_ID = "org.wikipedia:id/article_menu_bookmark",
-            BACK_BTN_BY_XPATH = "//*[@resource-id='org.wikipedia:id/page_toolbar']/*[1]",
-            KEBAB_MENU_BY_ID = "org.wikipedia:id/page_toolbar_button_show_overflow_menu",
-            EXPLORE_MENU_BY_ID = "org.wikipedia:id/overflow_feed",
-            SKIP_BTN_BY_ID = "org.wikipedia:id/fragment_onboarding_skip_button";
+            BOOKMARK_BTN = "id:org.wikipedia:id/article_menu_bookmark",
+            BACK_BTN = "xpath://*[@resource-id='org.wikipedia:id/page_toolbar']/*[1]",
+            KEBAB_MENU = "id:org.wikipedia:id/page_toolbar_button_show_overflow_menu",
+            EXPLORE_MENU = "id:org.wikipedia:id/overflow_feed",
+            SKIP_BTN = "id:org.wikipedia:id/fragment_onboarding_skip_button";
 
     public NavigationUI(AppiumDriver driver){
         super(driver);
@@ -17,28 +17,28 @@ public class NavigationUI extends MainPageObject{
 
     public void clickBookmarkBtn(){
         waitForElementAndClick(
-                By.id(BOOKMARK_BTN_BY_ID),
-                "Element BOOKMARK_BTN_BY_ID not found",
+                BOOKMARK_BTN,
+                "Element BOOKMARK_BTN not found",
                 5
         );
     }
     public void clickKebabBtn(){
         waitForElementAndClick(
-                By.id(KEBAB_MENU_BY_ID),
-                "Element KEBAB_MENU_BY_ID not found",
+                KEBAB_MENU,
+                "Element KEBAB_MENU not found",
                 15
         );
     }
     public void clickBackBtn(){
         waitForElementAndClick(
-                By.xpath(BACK_BTN_BY_XPATH),
-                "Element BACK_BTN_BY_XPATH not found",
+                BACK_BTN,
+                "Element BACK_BTN not found",
                 15
         );
     }
     public void clickExploreMenu(){
         waitForElementAndClick(
-                By.id(EXPLORE_MENU_BY_ID),
+                EXPLORE_MENU,
                 "Element EXPLORE_MENU_BY_ID not found",
                 5
         );
@@ -49,7 +49,7 @@ public class NavigationUI extends MainPageObject{
     }
     public void clickSkipButton(){
         waitForElementAndClick(
-                By.id(SKIP_BTN_BY_ID),
+                SKIP_BTN,
                 "Skip btn is not present",
                 5
         );

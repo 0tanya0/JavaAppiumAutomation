@@ -6,15 +6,15 @@ import org.openqa.selenium.By;
 
 public class SearchPageObject extends MainPageObject{
     private static final String
-            SEARCH_FIELD_WIKIPEDIA_BY_XPATH = "//*[contains(@text,'Search Wikipedia')]",
-            SEARCH_INPUT_BY_ID = "org.wikipedia:id/search_src_text",
-            SEARCH_TITLE_BY_ID_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{SUBSTRING}')]",
-            SEARCH_CANCEL_BTN_BY_ID = "org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_BY_XPATH_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DesOfArticle}']",
-            SEARCH_RESULT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*",
-            SEARCH_RESULT_EMPTY = "//*[@resource-id='org.wikipedia:id/results_text'][@text='No results']",
-            SEARCH_EMPTY_CONTAINER_BY_ID= "org.wikipedia:id/search_empty_container",
-            SEARCH_RESULT_DESCRIPTION_AND_TITLE_BY_XPATH = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{TITLE}')]/following-sibling::*[@resource-id='org.wikipedia:id/page_list_item_description'][contains(@text,'{DESCRIPTION}')]/..";
+            SEARCH_FIELD_WIKIPEDIA = "xpath://*[contains(@text,'Search Wikipedia')]",
+            SEARCH_INPUT = "id:org.wikipedia:id/search_src_text",
+            SEARCH_TITLE_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{SUBSTRING}')]",
+            SEARCH_CANCEL_BTN = "id:org.wikipedia:id/search_close_btn",
+            SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DesOfArticle}']",
+            SEARCH_RESULT = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*",
+            SEARCH_RESULT_EMPTY = "xpath://*[@resource-id='org.wikipedia:id/results_text'][@text='No results']",
+            SEARCH_EMPTY_CONTAINER= "id:org.wikipedia:id/search_empty_container",
+            SEARCH_RESULT_DESCRIPTION_AND_TITLE = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title'][contains(@text,'{TITLE}')]/following-sibling::*[@resource-id='org.wikipedia:id/page_list_item_description'][contains(@text,'{DESCRIPTION}')]/..";
 
 
     public SearchPageObject(AppiumDriver driver){
@@ -23,72 +23,72 @@ public class SearchPageObject extends MainPageObject{
 
     //Templates methods
     private static String getSearchResultDescriptionOfArticle(String descOfArticle){
-        return SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_BY_XPATH_TPL.replace("{DesOfArticle}",descOfArticle);
+        return SEARCH_RESULT_DESCRIPTION_OF_ARTICLE_TPL.replace("{DesOfArticle}",descOfArticle);
     }
     private static String getTitleSearchElement(String subString){
-        return SEARCH_TITLE_BY_ID_TPL.replace("{SUBSTRING}",subString);
+        return SEARCH_TITLE_TPL.replace("{SUBSTRING}",subString);
     }
     public static String getSearchResultDescriptionAndTitle(String descOfArticle, String titleOfArticle){
-        return SEARCH_RESULT_DESCRIPTION_AND_TITLE_BY_XPATH
+        return SEARCH_RESULT_DESCRIPTION_AND_TITLE
                 .replace("{TITLE}",titleOfArticle)
                 .replace("{DESCRIPTION}",descOfArticle);
     }
     public void clickCancelSearchBtn(){
         waitForElementAndClick(
-                By.id(SEARCH_CANCEL_BTN_BY_ID),
+                SEARCH_CANCEL_BTN,
                 "Cannot find SEARCH_CANCEL_BTN",
                 5);
     }
     public void waitForCancelBtnToDisappear(){
         waitForElementNotPresent(
-                By.id(SEARCH_CANCEL_BTN_BY_ID),
+                SEARCH_CANCEL_BTN,
                 "SEARCH_CANCEL_BTN is still present",
                 5
         );
     }
     public void initSearchInput(){
         waitForElementAndClick(
-                By.xpath(SEARCH_FIELD_WIKIPEDIA_BY_XPATH),
+                SEARCH_FIELD_WIKIPEDIA,
                 "Element SEARCH_FIELD_WIKIPEDIA not found",
                 5
         );
     }
     public void typeSearchText(String text){
         waitForElementAndSendKeys(
-                By.id(SEARCH_INPUT_BY_ID),
+                SEARCH_INPUT,
                 text,
                 "Element with '"+text+"' not found",
                 5
         );
     }
     public void clickElementByTitle(String titleOfArticle){
-        String searchTitleXPath = getTitleSearchElement(titleOfArticle);
+        String locator = getTitleSearchElement(titleOfArticle);
         waitForElementAndClick(
-                By.xpath(searchTitleXPath),
+                locator,
                 "Element with "+titleOfArticle+"not present",
                 5
         );
     }
     public void assertTitleOfArticle(String subString) {
-        String searchTitleXPath = getTitleSearchElement(subString);
+        String locator = getTitleSearchElement(subString);
         assertElementHasText(
-                By.xpath(searchTitleXPath),
+                locator,
                 subString,
                 "Element SEARCH_TITLE_BY_ID_TPL with"+ subString +" not found"
         );
     }
     public void waitForSearchResult(String descriptionOfArticle){
-        String searchResultXPath = getSearchResultDescriptionOfArticle(descriptionOfArticle);
+        String locator = getSearchResultDescriptionOfArticle(descriptionOfArticle);
         waitForElementPresent(
-                By.xpath(searchResultXPath),
+                locator,
                 "Element with"+ descriptionOfArticle +" not found"
         );
     }
 
     public void clickByArticleWithDescription(String descriptionOfArticle){
-        String searchResultXPath = getSearchResultDescriptionOfArticle(descriptionOfArticle);
+        String locator = getSearchResultDescriptionOfArticle(descriptionOfArticle);
         waitForElementAndClick(
-                By.xpath(searchResultXPath),
+                locator,
                 "Element TITLE_OF_ARTICLE_BY_XPATH with "+ descriptionOfArticle +" not found",
                 15
         );
@@ -101,10 +101,10 @@ public class SearchPageObject extends MainPageObject{
 
     public int getAmountOfFoundArticle(){
         waitForElementPresent(
-                By.xpath(SEARCH_RESULT),
+                SEARCH_RESULT,
                 "Search result list is not present"
         );
-       return getAmountsOfElements(By.xpath(SEARCH_RESULT));
+       return getAmountsOfElements(SEARCH_RESULT);
     }
     public void assertAmountOfFoundArticle(){
         int amountOfArticle = getAmountOfFoundArticle();
@@ -112,26 +112,26 @@ public class SearchPageObject extends MainPageObject{
     }
     public void waitForEmptyResultsLabel(){
         waitForElementPresent(
-                By.id(SEARCH_EMPTY_CONTAINER_BY_ID),
+                SEARCH_EMPTY_CONTAINER,
                 "Result list is Not empty",
                 15
         );
     }
     public void assertThereIsNoResultOfSearch(){
-        waitForElementPresent(By.xpath(SEARCH_RESULT_EMPTY),"Search result list is NOT empty");
+        waitForElementPresent(SEARCH_RESULT_EMPTY,"Search result list is NOT empty");
     }
 
     public void waitForElementByTitleAndDescription(String titleOfArticle, String descriptionOfArticle) {
-        String searchResultXPath = getSearchResultDescriptionAndTitle(descriptionOfArticle,titleOfArticle);
+        String locator = getSearchResultDescriptionAndTitle(descriptionOfArticle,titleOfArticle);
         waitForElementPresent(
-                By.xpath(searchResultXPath),
+                locator,
                 "Element with "+ descriptionOfArticle +" not found"
         );
     }
 
     public void assertAmountOfResultsByDescAndArticle(String searchText, String descriptionOfArticle) {
-        String searchResultXPath = getSearchResultDescriptionAndTitle(descriptionOfArticle,searchText);
-        int amountsOfResults = getAmountsOfElements(By.xpath(searchResultXPath));
+        String locator = getSearchResultDescriptionAndTitle(descriptionOfArticle,searchText);
+        int amountsOfResults = getAmountsOfElements(locator);
         Assert.assertTrue("Search result list is empty",amountsOfResults>2);
     }
 //    public void assertListHasTextByXpath(String xpath, String searchText, String errorMessage){

@@ -7,11 +7,11 @@ import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends MainPageObject {
     private static final String
-            TITLE_OF_ARTICLE = "//*[@resource-id='pcs']/*[1]/*[1]",
-            FOOTER_TEXT_BY_XPATH = "//*[@text='View article in browser']",
-            ADD_TO_LIST_ACTION_BY_XPATH = "//*[@text='ADD TO LIST']",
-            MY_LIST_NAME_INPUT_BY_ID = "org.wikipedia:id/text_input",
-            MY_LIST_OK_BTN_BY_ID = "android:id/button1";
+            TITLE_OF_ARTICLE = "xpath://*[@resource-id='pcs']/*[1]/*[1]",
+            FOOTER_TEXT = "xpath://*[@text='View article in browser']",
+            ADD_TO_LIST_ACTION = "xpath://*[@text='ADD TO LIST']",
+            MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input",
+            MY_LIST_OK_BTN = "id:android:id/button1";
 
 
     public ArticlePageObject(AppiumDriver driver){
@@ -24,13 +24,13 @@ public class ArticlePageObject extends MainPageObject {
     }
     public WebElement waitForTitleElement(){
         return waitForElementPresent(
-                By.xpath(TITLE_OF_ARTICLE),
+                TITLE_OF_ARTICLE,
                 "Element TITLE_OF_ARTICLE not found"
         );
     }
     public void swipeToFooter(){
         swipeUpToFindElement(
-                By.xpath(FOOTER_TEXT_BY_XPATH),
+                FOOTER_TEXT,
                 "Cannot find the end of article",
                 10
         );
@@ -40,18 +40,18 @@ public class ArticlePageObject extends MainPageObject {
         navigationUI.clickBookmarkBtn();
 
         waitForElementAndClick(
-                By.xpath(ADD_TO_LIST_ACTION_BY_XPATH),
+                ADD_TO_LIST_ACTION,
                 "Element ADD_TO_LIST_ACTION_BY_XPATH not found",
                 5
         );
         waitForElementAndSendKeys(
-                By.id(MY_LIST_NAME_INPUT_BY_ID),
+                MY_LIST_NAME_INPUT,
                 nameList,
                 "Element MY_LIST_NAME_INPUT_BY_ID not found",
                 5
         );
         waitForElementAndClick(
-                By.id(MY_LIST_OK_BTN_BY_ID),
+                MY_LIST_OK_BTN,
                 "Element MY_LIST_OK_BTN_BY_ID not found",
                 5
         );
@@ -63,7 +63,7 @@ public class ArticlePageObject extends MainPageObject {
     }
     public void assertElementPresentWithoutWait(String searchText){
         assertElementPresent(
-                By.xpath(TITLE_OF_ARTICLE+"[contains(@text,'"+ searchText +"')]")
+                TITLE_OF_ARTICLE+"[contains(@text,'"+ searchText +"')]"
         );
     }
 
