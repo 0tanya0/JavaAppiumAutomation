@@ -2,16 +2,15 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class ArticlePageObject extends MainPageObject {
-    private static final String
-            TITLE_OF_ARTICLE = "xpath://*[@resource-id='pcs']/*[1]/*[1]",
-            FOOTER_TEXT = "xpath://*[@text='View article in browser']",
-            ADD_TO_LIST_ACTION = "xpath://*[@text='ADD TO LIST']",
-            MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input",
-            MY_LIST_OK_BTN = "id:android:id/button1";
+abstract public class ArticlePageObject extends MainPageObject {
+    protected static String
+            TITLE_OF_ARTICLE,
+            FOOTER_TEXT,
+            ADD_TO_LIST_ACTION,
+            MY_LIST_NAME_INPUT,
+            MY_LIST_OK_BTN;
 
 
     public ArticlePageObject(AppiumDriver driver){

@@ -5,6 +5,7 @@ import lib.ui.ArticlePageObject;
 import lib.ui.MyListPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class MyListsTests extends CoreTestCase {
         searchPageObject.typeSearchText(searchText);
         String descriptionOfArticle ="Object-oriented programming language";
         searchPageObject.clickByArticleWithDescription(descriptionOfArticle);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
         String nameList = "Test";
         articlePageObject.addArticleToNewList(nameList);
@@ -39,7 +40,7 @@ public class MyListsTests extends CoreTestCase {
             searchPageObject.initSearchInput();
             searchPageObject.typeSearchText(searchText);
             searchPageObject.clickByArticleWithDescription(descriptionOfArticle1);
-            ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+            ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
             articlePageObject.waitForTitleElement();
             articlePageObject.addArticleToNewList(nameList);
             NavigationUI navigationUI = new NavigationUI(driver);
