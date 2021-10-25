@@ -2,13 +2,14 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
     @Test
     public void testSearch(){
         String searchText = "Java";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchText(searchText);
         searchPageObject.waitForSearchResult("Object-oriented programming language");
@@ -16,7 +17,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCancelSearch(){
         String searchText = "Java";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchText(searchText);
         searchPageObject.assertAmountOfFoundArticle();
@@ -25,7 +26,7 @@ public class SearchTests extends CoreTestCase {
     }
     @Test
     public void testAmountOfNotEmptySearch(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         String searchText = "Linkin Park Discography";
         searchPageObject.typeSearchText(searchText);
@@ -33,7 +34,7 @@ public class SearchTests extends CoreTestCase {
     }
     @Test
     public void testAmountOfEmptySearch(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         String searchText = "gfdhjuiogdgfr";
         searchPageObject.typeSearchText(searchText);
@@ -43,7 +44,7 @@ public class SearchTests extends CoreTestCase {
     public void testSearchByArticleAndDescription(){
         String searchText = "University of";
         String descriptionOfArticle = "university";
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchText(searchText);
         searchPageObject.waitForElementByTitleAndDescription(searchText,descriptionOfArticle);

@@ -5,12 +5,13 @@ import lib.ui.ArticlePageObject;
 import lib.ui.MyListPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase {
     @Test
     public void testSaveFirstArticleToMyList(){
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         String searchText = "Java";
         searchPageObject.typeSearchText(searchText);
@@ -34,7 +35,7 @@ public class MyListsTests extends CoreTestCase {
             String descriptionOfArticle1 = "Object-oriented programming language";
             String descriptionOfArticle2 = "Indonesian island";
 
-            SearchPageObject searchPageObject = new SearchPageObject(driver);
+            SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
             searchPageObject.initSearchInput();
             searchPageObject.typeSearchText(searchText);
             searchPageObject.clickByArticleWithDescription(descriptionOfArticle1);
