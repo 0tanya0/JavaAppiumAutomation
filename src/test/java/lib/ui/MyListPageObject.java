@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.ui.factories.NavigationUIFactory;
 import org.openqa.selenium.By;
 
 public class MyListPageObject extends MainPageObject{
@@ -92,7 +93,7 @@ public class MyListPageObject extends MainPageObject{
         );
     }
     public void addArticleToSavedList(String nameList){
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickBookmarkBtn();
         waitForElementAndClick(
                 ADD_TO_LIST_ACTION,

@@ -1,15 +1,13 @@
 package lib.ui;
-
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
-public class NavigationUI extends MainPageObject{
-    public static final String
-            BOOKMARK_BTN = "id:org.wikipedia:id/article_menu_bookmark",
-            BACK_BTN = "xpath://*[@resource-id='org.wikipedia:id/page_toolbar']/*[1]",
-            KEBAB_MENU = "id:org.wikipedia:id/page_toolbar_button_show_overflow_menu",
-            EXPLORE_MENU = "id:org.wikipedia:id/overflow_feed",
-            SKIP_BTN = "id:org.wikipedia:id/fragment_onboarding_skip_button";
+abstract public class NavigationUI extends MainPageObject{
+protected static String
+            BOOKMARK_BTN,
+            BACK_BTN,
+            KEBAB_MENU,
+            EXPLORE_MENU,
+            SKIP_BTN;
 
     public NavigationUI(AppiumDriver driver){
         super(driver);

@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import lib.ui.factories.NavigationUIFactory;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 
@@ -36,7 +37,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
     public void addArticleToNewList(String nameList){
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickBookmarkBtn();
 
         waitForElementAndClick(
