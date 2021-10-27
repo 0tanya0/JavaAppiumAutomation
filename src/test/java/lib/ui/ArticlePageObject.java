@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 
@@ -58,7 +59,12 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
     public String getArticleTitle(){
         WebElement element = waitForTitleElement();
-        return element.getAttribute("text");
+        if (Platform.getInstance().isAndroid()){
+            return element.getAttribute("text");
+        } else {
+            //here code for ios
+            return element.getAttribute("name");
+        }
     }
     public void assertElementPresentWithoutWait(String searchText){
         assertElementPresent(

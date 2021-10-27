@@ -114,7 +114,24 @@ public class MainPageObject {
             ++alreadySwiped;
         }
     }
+    public void swipeUpTitleElementAppear(String locator, String errorMessage, int maxSwipes){
+        int alreadySwiped = 0;
+        while (isElementLocatedOnScreen(locator)){
+            if (alreadySwiped > maxSwipes) {
+                Assert.assertTrue(errorMessage,isElementLocatedOnScreen(locator));
+                return;
+            }
+            swipeUpQuick();
+            ++alreadySwiped;
+        }
+    }
 
+    public boolean isElementLocatedOnScreen(String locator){
+        int elementLocationByY =
+                waitForElementPresent(locator,"Cant find element by locator").getLocation().getY();
+        int screenSizeByY = driver.manage().window().getSize().getHeight();
+        return elementLocationByY<screenSizeByY;
+    }
     public void swipeElementToLeft(String locator, String errorMessage) {
         WebElement element = waitForElementPresent(
                 locator,
