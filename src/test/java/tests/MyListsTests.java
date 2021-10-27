@@ -6,6 +6,7 @@ import lib.ui.MyListPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class MyListsTests extends CoreTestCase {
         articlePageObject.addArticleToNewList(nameList);
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.goToHomeScreen();
-        MyListPageObject myListPageObject = new MyListPageObject(driver);
+        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
         myListPageObject.clickSavedNavigationBar();
         myListPageObject.openSavedListByName(nameList);
         myListPageObject.removeArticleByDescriptionFromSavedList(descriptionOfArticle);
@@ -47,7 +48,7 @@ public class MyListsTests extends CoreTestCase {
             NavigationUI navigationUI = NavigationUIFactory.get(driver);
             navigationUI.clickBackBtn();
             searchPageObject.clickByArticleWithDescription(descriptionOfArticle2);
-            MyListPageObject myListPageObject = new MyListPageObject(driver);
+            MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
             myListPageObject.addArticleToSavedList(nameList);
             //step 2
             navigationUI.goToHomeScreen();
