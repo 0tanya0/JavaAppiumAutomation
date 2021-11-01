@@ -22,7 +22,7 @@ public class MainPageObject {
     }
 
     public void assertElementPresent(String locator) {
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         By by = this.getLocatorString(locator);
         Boolean isPresent = driver.findElements(by).size() > 0;
         Assert.assertTrue("Element not present", isPresent);

@@ -2,6 +2,7 @@ package lib;
 import io.appium.java_client.AppiumDriver;
 import junit.framework.TestCase;
 import lib.ui.NavigationUI;
+import lib.ui.factories.NavigationUIFactory;
 import org.openqa.selenium.ScreenOrientation;
 import java.time.Duration;
 
@@ -12,7 +13,7 @@ public class CoreTestCase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         driver = Platform.getInstance().getDriver();
-        NavigationUI navigationUI = new NavigationUI(driver);
+        NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.clickSkipButton();
     }
 
