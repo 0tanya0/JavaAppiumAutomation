@@ -1,7 +1,6 @@
 package lib.ui.android;
-
-import io.appium.java_client.AppiumDriver;
 import lib.ui.NavigationUI;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidNavigationUI extends NavigationUI {
 static {
@@ -11,7 +10,7 @@ static {
      EXPLORE_MENU = "id:org.wikipedia:id/overflow_feed";
      SKIP_BTN = "id:org.wikipedia:id/fragment_onboarding_skip_button";
 }
-    public AndroidNavigationUI(AppiumDriver driver){
+    public AndroidNavigationUI(RemoteWebDriver driver){
         super(driver);
     }
 }

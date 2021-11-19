@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.factories.NavigationUIFactory;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListPageObject extends MainPageObject{
     protected static String
@@ -14,7 +15,7 @@ abstract public class MyListPageObject extends MainPageObject{
             REMOVE_FROM_READING_LISTS_MENU,
             NAME_OF_FOLDER_CHECKLIST_TPL;
 
-    public MyListPageObject(AppiumDriver driver){
+    public MyListPageObject(RemoteWebDriver driver){
         super(driver);
     }
     //Templates methods

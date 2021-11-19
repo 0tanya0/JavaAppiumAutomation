@@ -3,8 +3,10 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class SearchTests extends CoreTestCase {
     @Test
     public void testSearch(){

@@ -1,12 +1,27 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.5"
+    }
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'io.qameta.allure'
 
 repositories {
     mavenCentral()
+}
+
+allure {
+    autoconfigure = true
+    version = '2.6.0'
+    configuration = 'testImplementation'
+    useJUnit4 {
+        version = '2.6.0'
+    }
+
 }
 
 dependencies {
@@ -15,11 +30,12 @@ dependencies {
     implementation 'junit:junit:4.12'
     implementation 'javax.websocket:javax.websocket-api:1.1'
     runtimeOnly 'org.junit.vintage:junit-vintage-engine:4.12.0'
-//    runtimeOnly 'org.testng:testng:6.14.3'
-
-    //runtimeClasspath "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
+    runtimeOnly 'org.aspectj:aspectjrt:1.8.3'
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.3'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+    implementation 'io.github.bonigarcia:webdrivermanager:4.4.3'
 }
 
 test {
-    useJUnitPlatform()
+    useJUnit()
 }

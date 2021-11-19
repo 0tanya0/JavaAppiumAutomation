@@ -1,10 +1,10 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import lib.ui.factories.NavigationUIFactory;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject {
     protected static String
@@ -15,7 +15,7 @@ abstract public class ArticlePageObject extends MainPageObject {
             MY_LIST_OK_BTN;
 
 
-    public ArticlePageObject(AppiumDriver driver){
+    public ArticlePageObject(RemoteWebDriver driver){
         super(driver);
     }
 

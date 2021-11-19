@@ -1,10 +1,11 @@
 package lib.ui;
-
-import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.junit.Assert;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class SearchPageObject extends MainPageObject{
     protected static String
+            SEARCH_INIT_ELEMENT,
             SEARCH_FIELD_WIKIPEDIA,
             SEARCH_INPUT,
             SEARCH_TITLE_TPL,
@@ -15,7 +16,7 @@ abstract public class SearchPageObject extends MainPageObject{
             SEARCH_EMPTY_CONTAINER,
             SEARCH_RESULT_DESCRIPTION_AND_TITLE;
 
-    public SearchPageObject(AppiumDriver driver){
+    public SearchPageObject(RemoteWebDriver driver){
         super(driver);
     }
 
@@ -45,19 +46,35 @@ abstract public class SearchPageObject extends MainPageObject{
         );
     }
     public void initSearchInput(){
+        if (Platform.getInstance().isMW()) {
+            waitForElementAndClick(
+                 SEARCH_INIT_ELEMENT,
+                 "Element SEARCH_INIT_ELEMENT not found",
+                 5
+            );
+        }
         waitForElementAndClick(
-                SEARCH_FIELD_WIKIPEDIA,
-                "Element SEARCH_FIELD_WIKIPEDIA not found",
-                5
+            SEARCH_FIELD_WIKIPEDIA,
+            "Element SEARCH_FIELD_WIKIPEDIA not found",
+            5
         );
     }
     public void typeSearchText(String text){
+        if (Platform.getInstance().isMW()) {
+            waitForElementAndSendKeys(
+                    SEARCH_FIELD_WIKIPEDIA,
+                    text,
+                    "Element with '"+text+"' not found",
+                    5
+            );
+        } else {
         waitForElementAndSendKeys(
                 SEARCH_INPUT,
                 text,
                 "Element with '"+text+"' not found",
                 5
         );
+        }
     }
     public void clickElementByTitle(String titleOfArticle){
         String locator = getTitleSearchElement(titleOfArticle);
@@ -106,7 +123,9 @@ abstract public class SearchPageObject extends MainPageObject{
     }
     public void assertAmountOfFoundArticle(){
         int amountOfArticle = getAmountOfFoundArticle();
-        Assert.assertTrue("Search result list is empty",amountOfArticle>1);
+        if (Platform.getInstance().isMW()) {
+            Assert.assertTrue("Search result list is empty",amountOfArticle==1);
+        } else Assert.assertTrue("Search result list is empty",amountOfArticle>1);
     }
     public void waitForEmptyResultsLabel(){
         waitForElementPresent(

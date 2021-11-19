@@ -1,7 +1,6 @@
 package lib.ui.android;
-
-import io.appium.java_client.AppiumDriver;
 import lib.ui.MyListPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidMyListPageObject extends MyListPageObject {
     static {
@@ -14,7 +13,7 @@ public class AndroidMyListPageObject extends MyListPageObject {
         REMOVE_FROM_READING_LISTS_MENU = "xpath://*[@text='Remove from reading lists']";
         NAME_OF_FOLDER_CHECKLIST_TPL = "xpath://*[@text='{NAMELIST}']";
     }
-    public AndroidMyListPageObject(AppiumDriver driver){
+    public AndroidMyListPageObject(RemoteWebDriver driver){
         super(driver);
     }
 

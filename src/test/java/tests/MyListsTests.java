@@ -9,8 +9,10 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class MyListsTests extends CoreTestCase {
     @Test
     public void testSaveFirstArticleToMyList(){

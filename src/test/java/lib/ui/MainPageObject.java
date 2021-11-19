@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -15,9 +16,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class MainPageObject {
-    protected AppiumDriver driver;
+    protected RemoteWebDriver driver;
 
-    public MainPageObject(AppiumDriver driver) {
+    public MainPageObject(RemoteWebDriver driver) {
         this.driver = driver;
     }
 
@@ -86,16 +87,20 @@ public class MainPageObject {
     }
 
     public void swipeUp(int timeOfSwipe) {
-        TouchAction action = new TouchAction(driver);
-        Dimension size = driver.manage().window().getSize();
-        int x = size.width / 2;
-        int startY = (int) (size.height * 0.8);
-        int endY = (int) (size.height * 0.2);
-        action.press(PointOption.point(x, startY))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeOfSwipe)))
-                .moveTo(PointOption.point(x, endY))
-                .release()
-                .perform();
+        if (driver instanceof AppiumDriver) {
+            TouchAction action = new TouchAction((AppiumDriver) (driver));
+            Dimension size = driver.manage().window().getSize();
+            int x = size.width / 2;
+            int startY = (int) (size.height * 0.8);
+            int endY = (int) (size.height * 0.2);
+            action.press(PointOption.point(x, startY))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(timeOfSwipe)))
+                    .moveTo(PointOption.point(x, endY))
+                    .release()
+                    .perform();
+        } else {
+            System.out.println("Method swipeUp do nothing for platform");
+        }
     }
 
     public void swipeUpQuick() {
@@ -132,24 +137,29 @@ public class MainPageObject {
         int screenSizeByY = driver.manage().window().getSize().getHeight();
         return elementLocationByY<screenSizeByY;
     }
+
     public void swipeElementToLeft(String locator, String errorMessage) {
-        WebElement element = waitForElementPresent(
-                locator,
-                "Element is NOT present",
-                10
-        );
-        int leftX = element.getLocation().getX();
-        int rightX = leftX + element.getSize().getWidth();
-        int upperY = element.getLocation().getY();
-        int lowerY = upperY + element.getSize().getHeight();
-        int middleY = (upperY + lowerY) / 2;
-        TouchAction action = new TouchAction(driver);
-        action
-                .press(PointOption.point(rightX, middleY))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(150)))
-                .moveTo(PointOption.point(leftX, middleY))
-                .release()
-                .perform();
+        if (driver instanceof AppiumDriver) {
+            WebElement element = waitForElementPresent(
+                    locator,
+                    "Element is NOT present",
+                    10
+            );
+            int leftX = element.getLocation().getX();
+            int rightX = leftX + element.getSize().getWidth();
+            int upperY = element.getLocation().getY();
+            int lowerY = upperY + element.getSize().getHeight();
+            int middleY = (upperY + lowerY) / 2;
+            TouchAction action = new TouchAction((AppiumDriver) driver);
+            action
+                    .press(PointOption.point(rightX, middleY))
+                    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(150)))
+                    .moveTo(PointOption.point(leftX, middleY))
+                    .release()
+                    .perform();
+        } else {
+            System.out.println("Method swipeUp do nothing for platform");
+        }
     }
 
     public void assertElementNotPresent(String locator, String errorMessage) {
@@ -171,14 +181,13 @@ public class MainPageObject {
         String byType = explodedLocator[0];
         String locator = explodedLocator[1];
 
-        if (byType.equals("xpath"))
-        {
+        if (byType.equals("xpath")) {
             return By.xpath(locator);
-        } else if (byType.equals("id"))
-        {
-            return By.id(locator);
-        } else
-        {
+        } else if (byType.equals("id")) {
+            return By.id(locator); }
+        else if (byType.equals("css")) {
+            return By.cssSelector(locator); }
+        else {
             throw new IllegalArgumentException("Cannot get type locator: " + locatorWithType);
         }
     }
