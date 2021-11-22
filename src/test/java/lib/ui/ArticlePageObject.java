@@ -60,6 +60,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
     public String getArticleTitle(){
         WebElement element = waitForTitleElement();
+        screenshot(takeScreenshot("articleTitle"));
         if (Platform.getInstance().isAndroid()){
             return element.getAttribute("text");
         } else {
