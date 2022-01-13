@@ -1,9 +1,9 @@
 buildscript {
     repositories {
-        mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath "io.qameta.allure:allure-gradle:2.5"
+        classpath "io.qameta.allure:allure-gradle:2.8.1"
     }
 }
 

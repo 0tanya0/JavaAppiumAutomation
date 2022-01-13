@@ -1,0 +1,4 @@
+gradlew.bat clean test
+emulator @and80
+c:\Projects\JavaAppiumAutomation\build>allure generate
+c:\Projects\JavaAppiumAutomation\build>allure open
